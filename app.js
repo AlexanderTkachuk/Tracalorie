@@ -12,9 +12,11 @@ const ItemCtrl = (function(){
     
     //data structure / State
     const data = {
-        items: [{id:0, name: 'Steak Dinner', calories: 1200},
-                {id:1, name: 'Cookie ', calories: 400},
-                {id:2, name: 'Eggs ', calories: 300}],
+        items: [
+            // {id:0, name: 'Steak Dinner', calories: 1200},
+            //     {id:1, name: 'Cookie ', calories: 400},
+            //     {id:2, name: 'Eggs ', calories: 300}
+            ],
         currentItem: null,
         totalCalories: 0
     }
@@ -44,6 +46,8 @@ const ItemCtrl = (function(){
 
             return newItem;
         },
+
+
         logData: function() {
             return data;
         }
@@ -83,7 +87,32 @@ const UICtrl = (function(){
                 calories: document.querySelector(UISelector.itemCaloriesInput).value
             }
         },
-        
+        addListItem: function(item){
+            //show list
+            document.querySelector(UISelector.itemList).style.display = 'block';
+            //create li elment
+            const li = document.createElement('li');
+            //add class
+            li.className = 'collection-item';
+            //add id
+            li.id = `item-${item.id}`;
+            //add html
+            li.innerHTML = `
+                <strong>${item.name}: </strong> <em>${item.calories} Calories</em>
+                <a href="#" class="secondary-content">
+                <i class=" edit-item fa fa-pencil"></i>
+                </a>
+            `;
+            //insert item
+            document.querySelector(UISelector.itemList).insertAdjacentElement('beforeend',li);
+        },
+        clearInput: function(){
+            document.querySelector(UISelector.itemNameInput).value = '';
+            document.querySelector(UISelector.itemCaloriesInput).value = '';
+        },
+        hideList: function(){
+            document.querySelector(UISelector.itemList).style.display = 'none';
+        },
         getSelectors: function() {
             return UISelector;
         }
@@ -111,9 +140,12 @@ const App = (function(ItemCtrl, UI){
         if(input.name !== '' && input.calories !== '') {
             //add item
            const newItem = ItemCtrl.addItem(input.name, input.calories);
-        }
+        
+            UICtrl.addListItem(newItem);
 
-        console.log(input);
+            //clear fields
+            UICtrl.clearInput();
+        }
     }
 
 
@@ -125,6 +157,13 @@ const App = (function(ItemCtrl, UI){
             //Fetch items from data structure
             const items = ItemCtrl.getItems();
 
+            //check if any items
+            if(items.length===0){
+                UICtrl.hideList();
+            }else{
+                UICtrl.populateItemList();
+            }
+
             //populate list with items
             UICtrl.populateItemList(items);
 
@@ -133,5 +172,6 @@ const App = (function(ItemCtrl, UI){
         }
     }
 })(ItemCtrl, UICtrl);
+
 
 App.init();
