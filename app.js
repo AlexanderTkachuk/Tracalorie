@@ -4,10 +4,17 @@
 //item controller
 const ItemCtrl = (function(){
     //item constructor
-    const Item = function(id, name, calories) {
-        this.id = id;
-        this.name = name;
-        this.calories = calories;
+    // const Item = function(id, name, calories) {
+    //     this.id = id;
+    //     this.name = name;
+    //     this.calories = calories;
+    // };
+    class Item {
+        constructor(id, name, calories) {
+            this.id = id;
+            this.name = name;
+            this.calories = calories;
+        }
     }
     
     //data structure / State
@@ -19,7 +26,7 @@ const ItemCtrl = (function(){
             ],
         currentItem: null,
         totalCalories: 0
-    }
+    };
 
     //Public methods
     return {
@@ -191,7 +198,7 @@ const App = (function(ItemCtrl, UI){
 
         //edit icon click event 
         document.querySelector(UISelectors.itemList).addEventListener('click', itemUpdateSubmit);
-    }
+    };
 
     //add item submit
     const itemAddSubmit = function(e) {
@@ -215,7 +222,7 @@ const App = (function(ItemCtrl, UI){
             //clear fields
             UICtrl.clearInput();
         }
-    }
+    };
 
     //update item submit
     const itemUpdateSubmit = function(e) {
@@ -239,7 +246,7 @@ const App = (function(ItemCtrl, UI){
               //addd item to form
               UICtrl.addItemToForm();
         }
-    }
+    };
 
     //Public methods 
     return {
@@ -266,7 +273,7 @@ const App = (function(ItemCtrl, UI){
             //load event lissteners
             loadEventListeners();
         }
-    }
+    };
 })(ItemCtrl, UICtrl);
 
 
